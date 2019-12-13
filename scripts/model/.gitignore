@@ -1,0 +1,4 @@
+weights.caffemodel
+adam_solver.prototxt
+train.sh
+logs/

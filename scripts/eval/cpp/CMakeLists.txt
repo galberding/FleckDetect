@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.5)
+set (CMAKE_CXX_STANDARD 11)
+project( Metrics )
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+file(GLOB SOURCES "*.cpp")
+add_executable( Metrics ${SOURCES})
+target_link_libraries( Metrics ${OpenCV_LIBS} )

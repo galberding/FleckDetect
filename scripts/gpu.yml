@@ -1,0 +1,56 @@
+scripts: scripts
+model: scripts/model 
+logs: scripts/model/logs
+snapshot: scripts/model/snapshot
+eval: "scripts/eval/"
+plot: "scripts/eval/plot"
+segment: "scripts/segment"
+models: "trainedModels"
+train_deploy: imagemaps/train.txt
+val_deploy: imagemaps/val.txt
+out_plots: assets/plots
+trainer_config: scripts/model/config.yml
+# Sould File get into the workspace?
+
+metric_exe: scripts/eval/cpp/build
+datasets: "Datasets"
+dataset:
+  fleck:
+    train:
+      gt: Datasets/FleckDataSet/train/ground_truth
+      img: Datasets/FleckDataSet/train/original
+      out: fleck_train
+    val:
+      gt: Datasets/FleckDataSet/val/ground_truth
+      img: Datasets/FleckDataSet/val/original
+      out: fleck_val
+  msrab:
+    train:
+      gt: Datasets/MSRA-B/train/gt
+      img: Datasets/MSRA-B/train/Img
+      out: msrab_train
+    val:
+      gt: Datasets/MSRA-B/val/gt
+      img: Datasets/MSRA-B/val/Img
+      out: msrab_val
+  soc:
+    train:
+      gt: Datasets/SOC6K_Release/TrainSet/gt
+      img: Datasets/SOC6K_Release/TrainSet/Imgs
+      out: soc_train
+    val:
+      gt: Datasets/SOC6K_Release/ValSet/gt
+      img: Datasets/SOC6K_Release/ValSet/Imgs
+      out: soc_val
+  soc_msrab_combi:
+    train:
+      gt: Datasets/SocMsrab/train/gt
+      img: Datasets/SocMsrab/train/img
+      out: soc_msrab_train
+    val:
+      gt: Datasets/SocMsrab/val/gt
+      img: Datasets/SocMsrab/val/img
+      out: soc_msrab_val
+        
+data_combis:
+  soc_msrab_combi: [soc, msrab]

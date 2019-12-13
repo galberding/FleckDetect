@@ -1,0 +1,25 @@
+net: "train.prototxt"
+test_net: [ "validation.prototxt" ]
+test_iter: 54
+test_interval: 100;
+test_compute_loss: true;
+# lr for fine-tuning should be lower than when starting from scratch
+#debug_info: true
+base_lr: 1e-9
+lr_policy: "step"
+#power: 0.9
+gamma: 0.1
+iter_size: 8
+# stepsize should also be lower, as we're closer to being done
+stepsize: 600
+average_loss: 50
+display: 50
+max_iter: 1500
+momentum: 0.90
+weight_decay: 0.0005
+snapshot: 100
+snapshot_prefix: "snapshots/ras"
+random_seed: 2718281
+# uncomment the following to default to CPU mode solving
+# solver_mode: CPU
+

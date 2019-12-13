@@ -1,0 +1,10 @@
+files:
+  data: data.csv
+  deploy: deploy.prototxt
+  metric: metrics.csv
+  train_out: loss_training.csv
+  val_out: loss_validation.csv
+model_prefix: pref
+outdir: soc_on_fleck
+plotdir: plots
+sel_model: sel_model
