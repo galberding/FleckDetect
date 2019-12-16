@@ -10,7 +10,10 @@ In order to manage multiple training rounds with different data sets workspaces 
 ## Tabel of Contents
 
 - [FleckDetect](#fleckdetect)
+  * [Tabel of Contents](#tabel-of-contents)
   * [Getting started](#getting-started)
+    + [Setup GPU Environment](#setup-gpu-environment)
+    + [Setup CPU Environment](#setup-cpu-environment)
   * [Usage](#usage)
     + [Create a Workspace](#create-a-workspace)
     + [Register a Data Set](#register-a-data-set)
@@ -25,7 +28,11 @@ In order to manage multiple training rounds with different data sets workspaces 
     + [Working with Custom Models](#working-with-custom-models)
     + [Fine-tune a Model](#fine-tune-a-model)
     + [Generate Linkfiles](#generate-linkfiles)
-
+  * [Results](#results)
+    + [RAS trained on MSRA-B](#ras-trained-on-msra-b)
+    + [RAS trained on SOC](#ras-trained-on-soc)
+    + [RAS trained on Combination of MSRA-B and SOC](#ras-trained-on-combination-of-msra-b-and-soc)
+  * [Findings](#findings)
 
 ## Getting started
 Unfortunately it is only possible to use the [trainer script](#start-the-training) and the [segmentation](#segment-a-dataset) with prebuild cuda and caffe version.
