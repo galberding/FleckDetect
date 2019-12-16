@@ -28,13 +28,51 @@ In order to manage multiple training rounds with different data sets workspaces 
 
 
 ## Getting started
-* Resources 
-* Installation guide 
-* ...
+Unfortunately it is only possible to use the [trainer script](#start-the-training) and the [segmentation](#segment-a-dataset) with prebuild cuda and caffe version.
+If you have access to the CITEC GPU cluster you can use a variant of the presented script below.
+
+### Setup GPU Environment
+* Setup your python interpreter (Version 2.7) and install the requirements:
+```
+pip intall -r gpu_requirements.txt
+```
+* Create a script ```env.sh``` for loading cuda and caffe 
+```bash
+# load cuda
+export PATH=$PATH:/path/to/compute/home/dist_cuda8.0_cudnn5.1/bin
+export PYTHONPATH=$PYTHONPATH:/path/to/compute/home/dist_cuda8.0_cudnn5.1/python
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/compute/home/dist_cuda8.0_cudnn5.1/lib
+module add cuda/8.0
+#load caffe layer
+export PYTHONPATH=$PYTHONPATH:/path/to/compute/home/FleckDetect/scripts/model/AugLayer/
+
+# optional: load your virtual environment 
+source path/to/python/env/bin/activate
+```
+* Allocate a job
+```
+salloc -c 2 --gres=gpu:gtx:1 --partition=gpu --time=48:00:00 --mail-type=BEGIN --mail-type=END --mail-user=user@techfak.uni-bielefeld.de bash
+```
+* Now load your environment 
+```
+source env.sh
+```
+
+Now you are able to use the trainer script and the segmentation. Keep in mind that you need to use the ```srun``` command to trigger the segmentation:
+```
+srun python controller.py --seg msrab
+```
+### Setup CPU Environment
+* Setup a virtual environment for python (Version > 3.5, tested with 3.7) and install the requirements
+```
+pip install -r cpu_requirements.txt
+```
 
 ## Usage
 First of all there are a few key components from which the whole projects will be controlled. The main entrypoint can be found in ```scrips``` under the fitting name ```controller.py```. All major changes, adaptations and preparations of datasets, models or the training itself will happen here with the help of the controller. You can list all possible options by executing:
 ```
+
+
 > python controller.py -h
 usage: controller.py [-h] [-w WORKSPACE] [-l] [--prep-train PREP_TRAIN]
                      [--create-link-file CREATE_LINK_FILE [CREATE_LINK_FILE ...]]
@@ -309,3 +347,66 @@ python controller.py --create-link-file <name> ../Datasets/DatasetName/images ..
 ```
 The ```--create-link-file``` option expects a name for the linkfile which is stored in 
 the workspace, and a path to the images and ground truth.
+
+## Results
+Three datasets served as the basis for all experiments: MSRA-B, SOC, and FleckSet (not published). 
+The RAS network was trained on the two data sets MSRA-B, SOC, and a combination of the two. 
+Adam was used as the optimizer with a learning rate of 0.001. 
+Each net was trained 100000 iterations.
+The three trained nets were then used for finetuning on the FleckSet. 
+During finetuning all parameters except the learning rate (0.0001) remained the same.
+The following illustrations show the performance of each network at different training stages.
+
+### RAS trained on MSRA-B
+RAS-Net trained on MSRA-B, evaluated on the validation set:
+
+![](assets/msrab_val.png)
+
+Results after finetuning on the FleckSet's validation set:
+
+![](assets/msrab_fleck.png)
+
+### RAS trained on SOC
+RAS-Net trained on SOC, evaluated on the validation set:
+
+![](assets/soc_val.png)
+
+Results after finetuning on the FleckSet's validation set:
+
+![](assets/soc_fleck.png)
+
+### RAS trained on Combination of MSRA-B and SOC
+RAS-Net evaluated on the validation set:
+
+![](assets/combined.png)
+
+Results after finetuning on the FleckSet's validation set:
+
+![](assets/combined_fleck.png)
+
+## Findings
+
+First of all, it can be said that the model that was trained on the MSRA-B data set 
+ultimately performs best on the FleckSet. 
+In general, it was observed that shorter training time leads to higher recall 
+but lower precision and vice versa. 
+
+Furthermore, it was observed that the SOC and MSRA-B models operate differently. 
+SOC has a lower recall. This can be explained by the structure of the data set. 
+This consists to a large extent of images with only background. 
+The net is therefore trained not to segment anything on these images 
+or to segment up to two objects on other images.
+This makes the network tend to segment less on an image rather than too much.
+
+With the MSRA-B model, the opposite is true.
+Here there is an object in the middle of each image. So the network tends to segment 
+more which explains the higher recall. 
+
+The Results of the combined model are quite disappointing on the validation set.
+This could be because this set is extremely unbalanced, as only about 10% of the validation set 
+consists of MSRA-B images. 
+The results on the FleckSet seem to confirm that the results are misleading. 
+Here the combined model gives much better values (higher precision) than the SOC model. 
+Furthermore, the combined model seems to achieve similarly good results as the MSRA-B model, 
+at least as far as the ratio of Precision and Recall is concerned. 
+

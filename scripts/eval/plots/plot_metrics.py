@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import sklearn.metrics as metrics
+# import sklearn.metrics as metrics
 import sys
-from tabulate import tabulate
+# from tabulate import tabulate
 import os
 
 def create_incremental_plot(metric_path, axs, name):
@@ -106,7 +106,7 @@ def plot_pr_curve(mean_precison, mean_recall, out_path):
     plt.scatter(mean_recall, mean_precison,s=10, c="#29F041")
     # plt.show()
     plt.savefig(out_path)
-    auc = metrics.auc(mean_recall, mean_precison)
+    # auc = metrics.auc(mean_recall, mean_precison)
     print("PR-Curve Auc: ", auc)
 
 def plot_roc_curve(mean_fpr, mean_tpr, out_path):
@@ -121,7 +121,7 @@ def plot_roc_curve(mean_fpr, mean_tpr, out_path):
     plt.xlim([0, 1])
     plt.ylim([0, 1])
     plt.savefig(out_path)
-    auc = metrics.auc(mean_fpr, mean_tpr)
+    # auc = metrics.auc(mean_fpr, mean_tpr)
     print("ROC-Curve Auc: ", auc)
 
 
