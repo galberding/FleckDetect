@@ -417,3 +417,6 @@ Here the combined model gives much better values (higher precision) than the SOC
 Furthermore, the combined model seems to achieve similarly good results as the MSRA-B model, 
 at least as far as the ratio of Precision and Recall is concerned. 
 
+Finally, it can be said that the RAS net is a suitable architecture to be used on the FleckSet. 
+It would make sense to use a combination of the MSRA-B and SOC data sets for the training in order 
+to obtain a model that is as robust as possible.
