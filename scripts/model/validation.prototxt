@@ -12,8 +12,8 @@ layer {
     mean_value: 122.67892
   }
   image_data_param {
-    root_folder: "/media/compute/homes/galberding/FleckDetect/"
-    source: "/media/compute/homes/galberding/FleckDetect/imagemaps/val.txt"
+    root_folder: "/path/to/FleckDetect/"
+    source: "/path/to/train.txt"
     batch_size: 1
     normalize: true
     new_height: 500

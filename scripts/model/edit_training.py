@@ -6,7 +6,7 @@ from yaml import load, dump, FullLoader
 LEARNING_RATE = 0.0001
 TRAINER = """#!/bin/bash\nsrun python trainer.py 2>&1 | tee "logs/{}.out"\n"""
 SOLVER = "adam_solver.prototxt"
-SOLVER_CONTENT = """train_net: "/media/compute/homes/galberding/FleckDetect/scripts/model/train.prototxt"
+SOLVER_CONTENT = """train_net: [ "train.prototxt" ]
 type: "Adam"
 # lr for fine-tuning should be lower than when starting from scratch
 #debug_info: true
@@ -54,13 +54,35 @@ def rename_train_cond(out_dir, name):
         dump(conf, f)
 
 
+def set_net_proto_paths(root_dir, linkfile_path, proto_path):
+    '''Set the "root" and "source" path in a prototxt network file.
+    root_dir - path set as root
+    linkfile_path - path set as source
+    proto_path - path to prototxt file
+    '''
+    
+    new_proto = []
+    with open(proto_path, "r") as f:
+        for line in f.readlines():
+            if "root" in line:
+                tmp = line.split(":")
+                
+                line = tmp[0]+ ': "' +root_dir + '"\n'
+            if "source" in line:
+                tmp = line.split(":")
+                line = tmp[0]+ ': "' + linkfile_path + '"\n'
+            new_proto.append(line)
+    with open(proto_path, "w") as f:
+        f.writelines(new_proto)
+
 # def prep_retrain():
 
 if __name__ == "__main__":
-    parser_ = argparse.ArgumentParser( \
-        description='Controller Program to evaluate a trained model.', \
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser_.add_argument('name', type=str, default=None ,help='Set name for model and log')    
-    args = parser_.parse_args()
-    rename_train_cond("", args.name)
-    print("Names adapted. Did you changed the paths to dataset yet?")
+    # parser_ = argparse.ArgumentParser( \
+    #     description='Controller Program to evaluate a trained model.', \
+    #     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    # parser_.add_argument('name', type=str, default=None ,help='Set name for model and log')    
+    # args = parser_.parse_args()
+    # rename_train_cond("", args.name)
+    # print("Names adapted. Did you changed the paths to dataset yet?")
+    set_net_proto_paths("hey/ho/hey", "blub/linkfile.txt", "test.prototxt")

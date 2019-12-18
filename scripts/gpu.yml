@@ -1,3 +1,4 @@
+# TODO: Merge with workspace.yml
 scripts: scripts
 model: scripts/model 
 logs: scripts/model/logs
@@ -10,10 +11,14 @@ train_deploy: imagemaps/train.txt
 val_deploy: imagemaps/val.txt
 out_plots: assets/plots
 trainer_config: scripts/model/config.yml
+val_net: scripts/model/validation.prototxt
+train_net: scripts/model/train.prototxt
 # Sould File get into the workspace?
 
 metric_exe: scripts/eval/cpp/build
 datasets: "Datasets"
+
+# TODO: Place datasets in own config file
 dataset:
   fleck:
     train:
@@ -52,5 +57,3 @@ dataset:
       img: Datasets/SocMsrab/val/img
       out: soc_msrab_val
         
-data_combis:
-  soc_msrab_combi: [soc, msrab]

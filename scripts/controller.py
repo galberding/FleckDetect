@@ -276,8 +276,6 @@ def gen_linkfiles(prep_train):
                                     config["dataset"][prep_train]["val"]["gt"], 
                                     prep_train+"_val", 
                                     val_deploy)
-    elif prep_train in config["data_combis"].keys():
-        pass
     else:
         raise Exception("Could not assign data to {}!\Do you have a dataset definition for {} in your gpu.yml?".format(prep_train, prep_train))
     
@@ -401,10 +399,12 @@ if __name__ == "__main__":
     if prep_train:
         gen_linkfiles(prep_train)
         # First change log and solver name
-        from scripts.model.edit_training import rename_train_cond
+        from scripts.model.edit_training import rename_train_cond, set_net_proto_paths
         # Store prefix in workspace config file
         out_dir = os.path.join(ROOT, config["model"])
         rename_train_cond(out_dir, prep_train)
+        set_net_proto_paths(ROOT, os.path.join(ROOT, config["train_deploy"]), config["train_net"])
+        set_net_proto_paths(ROOT, os.path.join(ROOT, config["val_deploy"]), config["val_net"])
         store_in_config({w_config["model_prefix"]: prep_train})
 
     if seg_all:
@@ -519,6 +519,9 @@ if __name__ == "__main__":
             store_in_config({w_config["model_prefix"]: prefix})
             # create linkfiles
             gen_linkfiles(retrain)
+            # Just in case the paths are not set properly!
+            set_net_proto_paths(ROOT, os.path.join(ROOT, config["train_deploy"]), config["train_net"])
+            set_net_proto_paths(ROOT, os.path.join(ROOT, config["val_deploy"]), config["val_net"])
             from scripts.model.edit_training import rename_train_cond
             # Store prefix in workspace config file
             out_dir = os.path.join(ROOT, config["model"])
