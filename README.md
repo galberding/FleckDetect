@@ -201,7 +201,7 @@ __**WARNING:**__ The trainer expects to run on a [slurm workload manager](https:
 
 
 ### Evaluate a Model
-Once you are done with a [training][#Start-the-Training] there will be lots of different versions of one model listed in ```scripts/model/snapshot/```.
+Once you are done with a [training](#Start-the-Training) there will be lots of different versions of one model listed in ```scripts/model/snapshot/```.
 Without further investigation it is hard to tell which one to choose. To ease the 
 decision of choosing one model you can **plot** the _train_ an _validation_ scores.
 ```
