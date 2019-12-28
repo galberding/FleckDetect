@@ -1,10 +1,56 @@
+dir:
+  eval: scripts/eval/
+  logs: scripts/model/logs
+  model: scripts/model
+  plot: scripts/eval/plot
+  scripts: scripts
+  segment: scripts/segment
+  snapshot: scripts/model/snapshot
+  w_spaces: testSpaces
+  metric_build: scripts/eval/cpp/build
+  datasets: "Datasets"
 files:
   data: data.csv
   deploy: deploy.prototxt
   metric: metrics.csv
   train_out: loss_training.csv
   val_out: loss_validation.csv
-model_prefix: pref
-outdir: tamino_on_fleck
-plotdir: plots
-sel_model: sel_model
+path:
+  linkfile_train_deploy: imagemaps/train.txt
+  linkfile_val_deploy: imagemaps/val.txt
+  m_config: scripts/model/config.yml
+  proto_solver: scripts/model/adam_solver.prototxt
+  proto_train: scripts/model/train.prototxt
+  proto_val: scripts/model/validation.prototxt
+  proto_deploy: scripts/segment/deploy.prototxt
+  base_weights: scripts/model/weights.caffemodel
+w_conf:
+  model_prefix: pref
+  sel_model: sel_model
+w_dir:
+  current_space: default
+  plot: plots
+  out_plots: assets/plots
+
+
+# # TODO: Merge with workspace.yml
+# scripts: scripts
+# model: scripts/model 
+# logs: scripts/model/logs
+# snapshot: scripts/model/snapshot
+# eval: "scripts/eval/"
+# plot: "scripts/eval/plot"
+# segment: "scripts/segment"
+# models: "testSpaces"
+# train_deploy: imagemaps/train.txt
+# val_deploy: imagemaps/val.txt
+# out_plots: assets/plots
+# model_config: scripts/model/config.yml
+# val_net: scripts/model/validation.prototxt
+# train_net: scripts/model/train.prototxt
+# base_weights: scripts/model/weights.caffemodel
+# adam_solver: scripts/model/adam_solver.prototxt
+# # Sould File get into the workspace?
+
+# metric_exe: scripts/eval/cpp/build
+# datasets: "Datasets"

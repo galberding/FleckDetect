@@ -107,7 +107,7 @@ def plot_pr_curve(mean_precison, mean_recall, out_path):
     # plt.show()
     plt.savefig(out_path)
     # auc = metrics.auc(mean_recall, mean_precison)
-    print("PR-Curve Auc: ", auc)
+    # print("PR-Curve Auc: ", auc)
 
 def plot_roc_curve(mean_fpr, mean_tpr, out_path):
     plt.plot(mean_fpr, mean_tpr )
@@ -122,7 +122,7 @@ def plot_roc_curve(mean_fpr, mean_tpr, out_path):
     plt.ylim([0, 1])
     plt.savefig(out_path)
     # auc = metrics.auc(mean_fpr, mean_tpr)
-    print("ROC-Curve Auc: ", auc)
+    # print("ROC-Curve Auc: ", auc)
 
 
 def plot_thresh(path):

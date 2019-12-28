@@ -11,6 +11,8 @@ Datasets/
 scripts/model/snapshot/
 Safepoints_fleckset/
 trainedModels/
+workspaces/
+testSpaces/
 ModelPerformance/
 
 .vscode

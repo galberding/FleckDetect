@@ -6,13 +6,15 @@ snapshot: scripts/model/snapshot
 eval: "scripts/eval/"
 plot: "scripts/eval/plot"
 segment: "scripts/segment"
-models: "trainedModels"
+models: "testSpaces"
 train_deploy: imagemaps/train.txt
 val_deploy: imagemaps/val.txt
 out_plots: assets/plots
-trainer_config: scripts/model/config.yml
+model_config: scripts/model/config.yml
 val_net: scripts/model/validation.prototxt
 train_net: scripts/model/train.prototxt
+base_weights: scripts/model/weights.caffemodel
+adam_solver: scripts/model/adam_solver.prototxt
 # Sould File get into the workspace?
 
 metric_exe: scripts/eval/cpp/build

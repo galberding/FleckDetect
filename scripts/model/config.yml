@@ -1,10 +1,10 @@
 model:
   lr: 1.0e-05
   max_iter: 81000
-retrain: true
+  test_iter: 87
+retrain: false
 solver:
   adam: /media/compute/homes/galberding/FleckDetect/scripts/model/adam_solver.prototxt
-  sgd: /media/compute/homes/galberding/FleckDetect/scripts/model/basic_solver.prototxt
 weights:
-  base: /media/compute/homes/galberding/FleckDetect/trainedModels/weights.caffemodel
+  base: /media/compute/homes/galberding/FleckDetect/scripts/model/weights.caffemodel
   retrain: /media/compute/homes/galberding/FleckDetect/trainedModels/test/sgd1.caffemodel

@@ -11,7 +11,7 @@ type: "Adam"
 # lr for fine-tuning should be lower than when starting from scratch
 #debug_info: true
 test_net: [ "validation.prototxt" ]
-test_iter: 54
+test_iter: {}
 test_interval: 1000;
 test_compute_loss: true;
 base_lr: {}
@@ -35,7 +35,7 @@ snapshot_prefix: "snapshot/ras_{}"
 solver_mode: GPU
     """
 def rename_train_cond(out_dir, name):
-
+    '''Use Model config to set train parameters and name the logs and snapshotted models'''
     config_path = os.path.join(out_dir, "config.yml")
     with open(config_path, "r") as f:
             conf = load(f, Loader=FullLoader)
@@ -43,7 +43,7 @@ def rename_train_cond(out_dir, name):
     # print(SOLVER_CONTENT.format("blablub"))
     solver_path = os.path.join(out_dir, SOLVER)
     with open(solver_path, "w+") as f:
-        f.write(SOLVER_CONTENT.format(conf["model"]["lr"], name))
+        f.write(SOLVER_CONTENT.format( conf["model"]["test_iter"], conf["model"]["lr"], name))
 
     trainer_path = os.path.join(out_dir, "train.sh")
     with os.fdopen(os.open(trainer_path, os.O_RDWR | os.O_CREAT, 0o750), "w+") as t:
@@ -76,6 +76,47 @@ def set_net_proto_paths(root_dir, linkfile_path, proto_path):
         f.writelines(new_proto)
 
 # def prep_retrain():
+
+def set_model_config(model_config_path, solver_path=None, learn_rate=None, max_iter=None, test_iter=None, retrain=False, weight_path=None):
+    '''Directly set the modelconfig patameter.
+    If one parameter is not None it will be updated in the config file.
+    ------------------------
+    
+    model_config_path - path to config
+    solver - path to solver
+    learn_rate -
+    max_iter -
+    test_iter - Parameters in the test set
+    retrain - If false the baseweights are set otherwise the retrain weights are set
+    weight_path - 
+    '''
+    with open(model_config_path, "r") as f: 
+        conf = load(f, Loader=FullLoader)
+        
+    if solver_path:
+        conf["solver"]["adam"] = solver_path
+    
+    if learn_rate:
+        conf["model"]["lr"] = learn_rate
+
+    if max_iter:
+        conf["model"]["max_iter"] = max_iter 
+
+    if test_iter:
+        conf["model"]["test_iter"] = test_iter 
+
+    if weight_path:
+        conf["retrain"] = retrain
+        if retrain:
+            conf["weights"]["retrain"] = weight_path 
+        else:
+            conf["weights"]["base"] = weight_path 
+
+    with open(model_config_path, "w") as f:
+        dump(conf, f)
+
+
+
 
 if __name__ == "__main__":
     # parser_ = argparse.ArgumentParser( \
