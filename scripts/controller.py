@@ -49,7 +49,6 @@ def parser():
 
     args = parser_.parse_args()
 
-    # TODO: should soon be obsolete
     with open("datasets.yml", "r") as f:
         d_config = load(f, Loader=FullLoader) 
         # print(config)
@@ -69,16 +68,24 @@ def create_workspace(switch_to=None):
     global w_config
     with open("workspace.yml", "r") as f:
         space = load(f, Loader=FullLoader)
+    
+    
     # Be aware that when switching to new workspace the order of dataset and path in workspace.yml may change but is not lost!
     if switch_to:
         space["w_dir"]["current_space"] = switch_to
         with open("workspace.yml", "w") as f:
             dump(space, f)
     w_config = space
-    workspace = os.path.join(ROOT, space["dir"]["w_spaces"], space["w_dir"]["current_space"])
-    if space["w_dir"]["current_space"] == "default":
-        print("No Workspace selected.\nCreate a new workspace with:\npython controller.py -w w_space_name.")
+    if not os.path.exists(os.path.join(ROOT, w_config["dir"]["w_spaces"])):
+        os.makedirs(os.path.join(ROOT, w_config["dir"]["w_spaces"]))
+    names, space_dir = get_workspaces()
+    if space["w_dir"]["current_space"] not in names:
+        print("No Workspace selected. Create a new workspace with:\npython controller.py -w w_space_name.")
+        print("Existing Workspaces: "+ ", ".join(names) if len(names) > 0 else "")
         exit(0)
+
+
+    workspace = os.path.join(ROOT, space["dir"]["w_spaces"], space["w_dir"]["current_space"])
     print("Workspace currently set to: {}".format(workspace.split("/")[-1]))
     
     if not os.path.exists(workspace):
@@ -361,12 +368,13 @@ def save_incremental_plot(axs, out_path):
 
 if __name__ == "__main__":
     eva, select, segment, metrics, link_files, gen_plots, prep_train, train_mode, seg_all, cal_all_metrics, gen_all_plots, list_workspaces, col_plots, gen_pr_roc_plot, retrain, plot_models = parser()
-    
     # Ensure that the filesystem is prepared and no dir is missing:
+
     if not os.path.exists(os.path.join(ROOT, w_config["dir"]["snapshot"])):
-        os.path.makedirs(os.path.join(ROOT, w_config["dir"]["snapshot"]))
+        os.makedirs(os.path.join(ROOT, w_config["dir"]["snapshot"]))
     if not os.path.exists(os.path.join(ROOT, w_config["dir"]["logs"])):
-        os.path.makedirs(os.path.join(ROOT, w_config["dir"]["logs"]))
+        os.makedirs(os.path.join(ROOT, w_config["dir"]["logs"]))
+    
 
     if eva:
         from scripts.eval.parse_caffe_log import parse_log
