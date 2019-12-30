@@ -1,7 +1,7 @@
 model:
   lr: 1.0e-05
   max_iter: 81000
-  test_iter: 87
+  test_iter: 1200
 retrain: false
 solver:
   adam: /media/compute/homes/galberding/FleckDetect/scripts/model/adam_solver.prototxt

@@ -13,7 +13,7 @@ layer {
   }
   image_data_param {
     root_folder: "/media/compute/homes/galberding/FleckDetect"
-    source: "/media/compute/homes/galberding/FleckDetect/imagemaps/val.txt"
+    source: "/media/compute/homes/galberding/FleckDetect/linkfiles/val.txt"
     batch_size: 1
     normalize: true
     new_height: 500

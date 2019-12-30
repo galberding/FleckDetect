@@ -17,8 +17,8 @@ files:
   val_out: loss_validation.csv
 path:
   base_weights: scripts/model/weights.caffemodel
-  linkfile_train_deploy: imagemaps/train.txt
-  linkfile_val_deploy: imagemaps/val.txt
+  linkfile_train_deploy: linkfiles/train.txt
+  linkfile_val_deploy: linkfiles/val.txt
   m_config: scripts/model/config.yml
   proto_deploy: scripts/segment/deploy.prototxt
   proto_solver: scripts/model/adam_solver.prototxt
@@ -28,6 +28,6 @@ w_conf:
   model_prefix: pref
   sel_model: sel_model
 w_dir:
-  current_space: test2
+  current_space: combined
   out_plots: assets/plots
   plot: plots

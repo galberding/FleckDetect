@@ -79,7 +79,7 @@ def create_workspace(switch_to=None):
     if not os.path.exists(os.path.join(ROOT, w_config["dir"]["w_spaces"])):
         os.makedirs(os.path.join(ROOT, w_config["dir"]["w_spaces"]))
     names, space_dir = get_workspaces()
-    if space["w_dir"]["current_space"] not in names:
+    if space["w_dir"]["current_space"] not in names + [switch_to]:
         print("No Workspace selected. Create a new workspace with:\npython controller.py -w w_space_name.")
         print("Existing Workspaces: "+ ", ".join(names) if len(names) > 0 else "")
         exit(0)
@@ -342,7 +342,7 @@ def calculate_metrics(metrics, active_model):
             "Could not find groud truth data.\nDid you add the correct path to the gpu.yml?")
     metric_path = os.path.join(WORKSPACE, active_model, d_config["dataset"][metrics]["train" if train_mode else "val"]["out"], 
                 w_config["files"]["metric"])
-    exe_dir = os.path.join(ROOT, d_config["dir"]["metric_build"])
+    exe_dir = os.path.join(ROOT, w_config["dir"]["metric_build"])
     if (not os.path.exists(exe_dir)):
         raise Exception("Could not find Metrics build dir.\nDid you build it correctly?")
     os.chdir(exe_dir)  # switch dir to the executabel

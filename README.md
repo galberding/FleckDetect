@@ -38,10 +38,11 @@ In order to manage multiple training rounds with different data sets workspaces 
 Unfortunately it is only possible to use the [trainer script](#start-the-training) and the [segmentation](#segment-a-dataset) with prebuild cuda and caffe version.
 If you have access to the CITEC GPU cluster you can use a variant of the presented script below.
 
+
 ### Setup GPU Environment
 * Setup your python interpreter (Version 2.7) and install the requirements:
 ```
-pip intall -r gpu_requirements.txt
+pip intall -r requirements2.7.txt
 ```
 * Create a script ```env.sh``` for loading cuda and caffe 
 ```bash
@@ -70,13 +71,13 @@ Now you are able to use the trainer script and the segmentation. Keep in mind th
 srun python controller.py --seg msrab
 ```
 ### Setup CPU Environment
-* Setup a virtual environment for python (Version > 3.5, tested with 3.7) and install the requirements
+* Setup a virtual environment for python (Version >= 3.6, tested with 3.7) and install the requirements
 ```
-pip install -r cpu_requirements.txt
+pip install -r requirements3.6.txt
 ```
 
 ## Usage
-First of all there are a few key components from which the whole projects will be controlled. The main entrypoint can be found in ```scrips``` under the fitting name ```controller.py```. All major changes, adaptations and preparations of datasets, models or the training itself will happen here with the help of the controller. You can list all possible options by executing:
+First of all there are a few key components from which the whole projects will be controlled. The main entrypoint can be found in ```scrips/``` under the name ```controller.py```. All major changes, adaptations and preparations of datasets, models or the training itself will happen here with the help of the controller. You can list all possible options by executing:
 ```
 
 
@@ -98,8 +99,8 @@ Creation of a workspace is fairly easy:
 Workspace currently set to: workspace_name
 Create Workspace
 Active model not set!
-No active model specified. This should be resolved after selecting a model after training with --sel <iteration>
-For now prepare the training with --prep-train to setup the script: scripts/model/trainer.sh and the workspace properly!
+No model specified, searching for local model ...
+Selecting a model after training with --sel <iteration> or copy it in the workspace.
 ```
 As you can see the controller is complaining about some things which will be resolved in the next sections.
 What happened?
@@ -117,7 +118,7 @@ cd path/to/FleckDetect
 mkdir -p Datasets && cd Datasets 
 cp -r path/to/dataset .
 ```
-Adapt the ```gpu.yml``` config to register your dataset like int the following example:
+Adapt the ```datasets.yml``` config to register your dataset like int the following example:
 ```yaml
 dataset:
   msrab:
@@ -139,12 +140,16 @@ dataset:
       img: Datasets/SOC6K_Release/ValSet/Imgs
       out: soc_val
 ```
-Each data set needs to be composed of a **train** and **validation** set with a directory pointing to the images (_img_) and another directory for the ground truth samples (_gt_). Furthermore each subset needs to contain an output name (_out_). This will be the name for the segmented samples later on.
+Here we registered two datasets: ```msrab``` and ```soc```. 
+Those names can be used by some commands to address a specific dataset.
+Each dataset needs to be composed of a **train** and **validation** set with a directory pointing to the images (_img_) and another directory for the ground truth samples (_gt_). Furthermore each subset needs to contain an output name (_out_). This will be the name for the segmented samples later on.
 It is necessary to specify a _train_ and _val_ set for each dataset with the three described attributes above.
 
 ### Prepare the Training
 Once you have [created a workspace](#Create-a-Workspace) and [registered a dataset](#Register-a-Data-Set) you can precede with the training preparation. 
-Linkfiles (as I call them) are textfiles which contatin paths to all samples in the train/val dataset and their corresponding ground truth.
+
+Linkfiles (as I call them) are textfiles which contain paths to all samples in the train/val dataset and their corresponding ground truth.
+These files are essential for caffe to know where the dataset is located and which samples should be used. The generation is implicitly executed with the training preparation.
 See extract below:
 ```
 Datasets/MSRA-B/train/Img/0_18_18562.jpg Datasets/MSRA-B/train/gt/0_18_18562.png
@@ -153,8 +158,7 @@ Datasets/MSRA-B/train/Img/7_190_190902.jpg Datasets/MSRA-B/train/gt/7_190_190902
 Datasets/MSRA-B/train/Img/9_15319.jpg Datasets/MSRA-B/train/gt/9_15319.png
 [...]
 ```
-These files are essential for caffe to know where the dataset is located and which samples should be used.
-You don't need to worry about this because the controller copies all on the right place.
+
 
 You can prepare the training with:
 ```
@@ -172,7 +176,8 @@ When the preparation was successful you see something like this:
 ```
 Workspace currently set to: workspace_name
 Active model not set!
-No active model specified. This should be resolved after selecting a model after training with --sel <iteration>
+No model specified, searching for local model ...
+Selecting a model after training with --sel <iteration> or copy it in the workspace.
 Try to link files from msrab_train
 Create pairs
 100%|██████████████████████████████████████████████| 4913/4913 [00:04<00:00, 1119.95it/s]
