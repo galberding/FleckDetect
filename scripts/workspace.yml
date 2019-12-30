@@ -28,6 +28,6 @@ w_conf:
   model_prefix: pref
   sel_model: sel_model
 w_dir:
-  current_space: combined
+  current_space: combined_on_msrab
   out_plots: assets/plots
   plot: plots

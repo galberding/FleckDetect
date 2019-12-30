@@ -194,7 +194,22 @@ done!
 
 ### Start the Training
 In order to start the training you need to [prepare it](#Prepare-the-Training).
-Switch into the ```model``` directory and execute the trainer script:
+
+Usually there should be weights provided for the network. If you want to use your own weights 
+adapt the workspace.yml:
+```yaml
+path:
+  base_weights: scripts/model/weights.caffemodel
+  [...]
+```
+If you have access to the techfac network you can use the provided script: ```scripts/model/getWeights.sh``` to copy weights into the project.
+```
+cd scripts/model
+./getWeights.sh
+```
+__**WARNING:**__: If you change the path to the weights [prepare the training](#Prepare-the-Training) again to make sure all paths are set correctly!
+
+Subsequent, witch into the ```model``` directory and execute the trainer script:
 ```
 cd scripts/model
 ./train.sh

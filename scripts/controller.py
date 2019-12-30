@@ -443,8 +443,8 @@ if __name__ == "__main__":
             raise Exception("Flag {} does not link to a path.\nIs it defined in workspace.yml?".format(gen_plots))
 
     if prep_train:
-        train_samples, val_samples = gen_linkfiles(prep_train)
         from scripts.model.edit_training import rename_train_cond, set_net_proto_paths, set_model_config
+        train_samples, val_samples = gen_linkfiles(prep_train)
         model_config_path = os.path.join(ROOT, w_config["path"]["m_config"])
         set_model_config(model_config_path, 
             solver_path=os.path.join(ROOT, w_config["path"]["proto_solver"]), 
@@ -475,11 +475,11 @@ if __name__ == "__main__":
 
 
     if retrain:
-        from scripts.model.edit_training import set_net_proto_paths, rename_train_cond
+        from scripts.model.edit_training import set_net_proto_paths, rename_train_cond, set_model_config
         if retrain in d_config["dataset"].keys():
             model_path = get_workspace_model() # get abs model path
             # load config and adapt model path
-            config_path = os.path.join(ROOT, w_config["path"]["m_config"])
+            # config_path = os.path.join(ROOT, w_config["path"]["m_config"])
             #TODO Adapt learn rate in trainer
             workspace_name = w_config["w_dir"]["current_space"] + "_on_" + retrain
             # create new workspace 
@@ -494,17 +494,25 @@ if __name__ == "__main__":
             set_net_proto_paths(ROOT, os.path.join(ROOT, w_config["path"]["linkfile_val_deploy"]), w_config["path"]["proto_val"])
             # Store workspace_name in workspace config file
             out_dir = os.path.join(ROOT, w_config["dir"]["model"])
+            model_config_path = os.path.join(ROOT, w_config["path"]["m_config"])
+            set_model_config(model_config_path, 
+                solver_path=os.path.join(ROOT, w_config["path"]["proto_solver"]), 
+                test_iter=val_samples,
+                retrain=True, weight_path=model_path)
             rename_train_cond(out_dir, workspace_name)
-            if not os.path.exists(config_path):
-                raise Exception("Config file does not exist!")
 
-            # Write changes to model config
-            with open(config_path, "r") as f:
-                m_conf = load(f, Loader=FullLoader)
-                m_conf["weights"]["retrain"] = model_path
-                m_conf["retrain"] = True
-            with open(config_path, "w") as f:
-                dump(m_conf, f)
+
+
+            # if not os.path.exists(config_path):
+            #     raise Exception("Config file does not exist!")
+
+            # # Write changes to model config
+            # with open(config_path, "r") as f:
+            #     m_conf = load(f, Loader=FullLoader)
+            #     m_conf["weights"]["retrain"] = model_path
+            #     m_conf["retrain"] = True
+            # with open(config_path, "w") as f:
+            #     dump(m_conf, f)
             # 
         else:
             raise Exception("Dataset: {} not found!".format(retrain))

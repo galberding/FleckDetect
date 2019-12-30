@@ -48,10 +48,10 @@ def rename_train_cond(out_dir, name):
     trainer_path = os.path.join(out_dir, "train.sh")
     with os.fdopen(os.open(trainer_path, os.O_RDWR | os.O_CREAT, 0o750), "w+") as t:
         t.write(TRAINER.format(name))
-    conf["retrain"] = False
+    # conf["retrain"] = False
 
-    with open(config_path, "w") as f:
-        dump(conf, f)
+    # with open(config_path, "w") as f:
+    #     dump(conf, f)
 
 
 def set_net_proto_paths(root_dir, linkfile_path, proto_path):
