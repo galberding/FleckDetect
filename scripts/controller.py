@@ -16,7 +16,7 @@ sys.path.append(ROOT)
 # Todo: Replace by access of packages, only append root
 # sys.path.append(os.path.join(ROOT, "scripts/eval"))
 # sys.path.append(os.path.join(ROOT, "scripts/eval/plots"))
-# sys.path.append(os.path.join(ROOT, "scripts/segment"))
+sys.path.append(os.path.join(ROOT, "scripts/segment"))
 # sys.path.append(os.path.join(ROOT, "script/mode"))
 
 
@@ -93,7 +93,7 @@ def create_workspace(switch_to=None):
         os.makedirs(workspace)
     WORKSPACE = workspace
     try:
-        print("Active model: ", load_config()[w_config["w_conf"]["sel_model"]])
+        print("Active model: {}".format(load_config()[w_config["w_conf"]["sel_model"]]))
     except Exception:
         print("Active model not set!")
 
@@ -391,7 +391,8 @@ if __name__ == "__main__":
         print("Selecting a model after training with --sel <iteration> or copy it in the workspace.")
     
     if segment:
-        from scripts.segment.segment_images import seg_images
+        # from scripts.segment.segment_images import seg_images
+        from segment_images import seg_images
         segment_dataset(segment, active_model)
 
     if metrics:
