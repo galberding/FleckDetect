@@ -22,7 +22,7 @@ In order to manage multiple training rounds with different data sets workspaces 
     + [Evaluate a Model](#evaluate-a-model)
     + [Select a Model](#select-a-model)
     + [Segment a Dataset](#segment-a-dataset)
-    + [Calculate Metrics:](#calculate-metrics-)
+    + [Calculate Metrics:](#calculate-metrics)
     + [Generate Plots](#generate-plots)
   * [Additional Features](#additional-features)
     + [Working with Custom Models](#working-with-custom-models)
@@ -47,11 +47,12 @@ pip intall -r requirements2.7.txt
 * Create a script ```env.sh``` for loading cuda and caffe 
 ```bash
 # load cuda
+module add cuda/8.0
+
+#load caffe layer
 export PATH=$PATH:/path/to/compute/home/dist_cuda8.0_cudnn5.1/bin
 export PYTHONPATH=$PYTHONPATH:/path/to/compute/home/dist_cuda8.0_cudnn5.1/python
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/path/to/compute/home/dist_cuda8.0_cudnn5.1/lib
-module add cuda/8.0
-#load caffe layer
 export PYTHONPATH=$PYTHONPATH:/path/to/compute/home/FleckDetect/scripts/model/AugLayer/
 
 # optional: load your virtual environment 
