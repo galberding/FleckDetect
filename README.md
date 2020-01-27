@@ -110,7 +110,7 @@ What happened?
 * You are able to select a model when the workspace is properly set up (```--prep-train```)
 
 ### Register a Data Set
-The controller uses two kinds of configuration files ```gpu.yml``` which contains all paths to the data sets and directories, and ```workspace.yml``` that holds names for directories and files which will be created in the different workspaces.
+The controller uses two kinds of configuration files ```datasets.yml``` which contains all paths to the data sets, and ```workspace.yml``` that holds paths and names for directories and files which will be created in the different workspaces.
 
 In order to register a new dataset it needs to be properly placed in the ```Datasets``` directory (otherwise it messes up the linkfile generation which will be explained later.)
 Use the following command to copy a dataset in the project:
@@ -143,7 +143,7 @@ dataset:
 ```
 Here we registered two datasets: ```msrab``` and ```soc```. 
 Those names can be used by some commands to address a specific dataset.
-Each dataset needs to be composed of a **train** and **validation** set with a directory pointing to the images (_img_) and another directory for the ground truth samples (_gt_). Furthermore each subset needs to contain an output name (_out_). This will be the name for the segmented samples later on.
+Each dataset needs to be composed of a **train** and **validation** set with a directory pointing to the images (_img_) and another directory for the ground truth samples (_gt_). Furthermore each subset needs to contain an output name (_out_). This will be the name for directory of the segmented samples later on.
 It is necessary to specify a _train_ and _val_ set for each dataset with the three described attributes above.
 
 ### Prepare the Training
