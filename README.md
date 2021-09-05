@@ -1,5 +1,5 @@
 # FleckDetect
-Segmenting objects in the foreground with the [RAS-Architecture](http://openaccess.thecvf.com/content_ECCV_2018/html/Shuhan_Chen_Reverse_Attention_for_ECCV_2018_paper.html).
+
 This repository was created within the scope of an ISY project. In the course of the project, the above mentioned RAS architecture was to be investigated with regard to segmentation capabilities on the SOC and MSRA-B data set. Both datasets can be downloaded [here](http://mmcheng.net/SOCBenchmark/). 
 
 Furthermore, the resulting model should be evaluated and fine-tuned on a different dataset, containing images of laundry with dirty spots (this dataset will **not** be published).
